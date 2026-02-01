@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import './App.css';
 
 
 export default function App() {
+  const [todoid, setId] = useState(null);
   const [task, setTask] = useState({
     taskid: '',
     taskname: ''
@@ -24,23 +26,46 @@ export default function App() {
   // Submited happend
   async function handleSubmission(e) {
     e.preventDefault();
-    try {
-      // const response = await axios.post('http://127.0.0.1:8000/api/create'
-      // const response = await axios.post('http://127.0.0.1:8000/api/create', {
+
+    if (todoid === null) {
+      try {
+        // const response = await axios.post('http://127.0.0.1:8000/api/create'
+        // const response = await axios.post('http://127.0.0.1:8000/api/create', {
         const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create', {
-        taskid: task.taskid,
-        taskname: task.taskname
-      });
-      alert('Data saved successfully');
-      setTask({
-        taskid: '',
-        taskname: ''
-      });
-      retriveData();
-    } catch (error) {
-      console.log(error);
+          taskid: task.taskid,
+          taskname: task.taskname
+        });
+        alert('Data saved successfully');
+        setTask({
+          taskid: '',
+          taskname: ''
+        });
+        retriveData();
+      } catch (error) {
+        console.log(error);
+
+      }
+    } else {
+      try {
+        const response = await axios.put(`https://djangorender1-trh2.onrender.com/api/update/${item.id}/`, {
+          // const response = await axios.put(`http://127.0.0.1:8000/api/update/${todoid}/`, {
+          taskid: task.taskid,
+          taskname: task.taskname
+        });
+
+        alert(`${task.taskid} is updated successfully`);
+        setId(null)
+        retriveData();
+        setTask({
+          taskid: '',
+          taskname: ''
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
     }
+
 
   }
 
@@ -57,12 +82,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    // fetch data every 3 seconds
-    const interval = setInterval(() => {
-      retriveData();
-    }, 3000);
-
-    return () => clearInterval(interval); // cleanup on unmount
+    retriveData();
   }, []);
 
 
@@ -79,6 +99,19 @@ export default function App() {
     }
 
   }
+
+  async function handleEdit(item) {
+    setId(item.id)
+    setTask({
+      ...task,
+      taskid: item.taskid,
+      taskname: item.taskname
+
+    });
+
+
+  }
+
   return (
     <>
 
@@ -88,7 +121,9 @@ export default function App() {
         <input type='text' name='taskid' value={task.taskid} onChange={handleChange} /> <br />
         <label>Task name</label> <br />
         <input type='text' name='taskname' value={task.taskname} onChange={handleChange} /> <br />
-        <input type='submit' value='Submit' />
+
+
+        <input type='submit' value={todoid ? 'Update' : 'Submit'} />
         <input type='reset' value='Reset' />
       </form>
 
@@ -109,6 +144,7 @@ export default function App() {
                 <td>{item.taskid}</td>
                 <td>{item.taskname}</td>
                 <td><button onClick={() => handleDelete(item.id)}>Delete</button></td>
+                <td><button onClick={() => handleEdit(item)}>Edit</button></td>
               </tr>
             )
 
