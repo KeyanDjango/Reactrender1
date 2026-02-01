@@ -46,9 +46,9 @@ export default function App() {
 
   // Retrive Data
   async function retriveData() {
-    // const response = await axios.get('http://127.0.0.1:8000/api/create')
-    const response = await axios.get('https://djangorender1-trh2.onrender.com/api/create')
-    
+    const response = await axios.get('http://127.0.0.1:8000/api/create')
+    // const response = await axios.get('https://djangorender1-trh2.onrender.com/api/create')
+
     // console.log(response.data);
 
     setData(response.data);
@@ -59,6 +59,19 @@ export default function App() {
   useEffect(() => {
     retriveData();
   }, []);
+
+  // Data Delete
+  async function handleDelete(id) {
+    try {
+      //const response = await axios.delete(`https://djangorender1-trh2.onrender.com/api/delete/${id}`);
+      const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}/`);
+      retriveData();
+      alert('Data  deleted successfully')
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
   return (
     <>
 
@@ -85,8 +98,10 @@ export default function App() {
           {todoData.map((item) => {
             return (
               <tr key={item.id}>
+                <td>{item.id}</td>
                 <td>{item.taskid}</td>
                 <td>{item.taskname}</td>
+                <td><button onClick={() => handleDelete(item.id)}>Delete</button></td>
               </tr>
             )
 
