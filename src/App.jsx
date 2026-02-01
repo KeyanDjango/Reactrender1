@@ -1,0 +1,96 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+
+export default function App() {
+  const [task, setTask] = useState({
+    taskid: '',
+    taskname: ''
+  });
+
+  const [todoData, setData] = useState([]);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setTask({
+      ...task,
+      [name]: value
+    });
+
+
+  }
+
+  // Submit
+  async function handleSubmission(e) {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/create', {
+        taskid: task.taskid,
+        taskname: task.taskname
+      });
+      alert('Data saved successfully');
+      setTask({
+        taskid: '',
+        taskname: ''
+      });
+      retriveData();
+    } catch (error) {
+      console.log(error);
+
+    }
+
+  }
+
+  // Retrive Data
+  async function retriveData() {
+    const response = await axios.get('http://127.0.0.1:8000/api/create')
+    // console.log(response.data);
+
+    setData(response.data);
+    console.log(response.data);
+
+  }
+
+  useEffect(() => {
+    retriveData();
+  }, []);
+  return (
+    <>
+
+      <form onSubmit={handleSubmission}>
+
+        <label>Task id</label> <br />
+        <input type='text' name='taskid' value={task.taskid} onChange={handleChange} /> <br />
+        <label>Task name</label> <br />
+        <input type='text' name='taskname' value={task.taskname} onChange={handleChange} /> <br />
+        <input type='submit' value='Submit' />
+        <input type='reset' value='Reset' />
+      </form>
+
+      <table border='1px solid black'>
+        <thead>
+          <tr>
+            <td>TaskId</td>
+            <td>TaskName</td>
+          </tr>
+        </thead>
+        <tbody>
+
+
+          {todoData.map((item) => {
+            return (
+              <tr key={item.id}>
+                <td>{item.taskid}</td>
+                <td>{item.taskname}</td>
+              </tr>
+            )
+
+          })}
+
+
+        </tbody>
+      </table>
+    </>
+  );
+}
