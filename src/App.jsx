@@ -47,7 +47,7 @@ export default function App() {
       }
     } else {
       try {
-        const response = await axios.put(`https://djangorender1-trh2.onrender.com/api/update/${item.id}/`, {
+        const response = await axios.put(`https://djangorender1-trh2.onrender.com/api/update/${todoid}/`, {
           // const response = await axios.put(`http://127.0.0.1:8000/api/update/${todoid}/`, {
           taskid: task.taskid,
           taskname: task.taskname
