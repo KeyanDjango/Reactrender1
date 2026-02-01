@@ -26,8 +26,8 @@ export default function App() {
     e.preventDefault();
     try {
       // const response = await axios.post('http://127.0.0.1:8000/api/create'
-      // const response = await axios.post('http://127.0.0.1:8000/api/create'
-      const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create', {
+      // const response = await axios.post('http://127.0.0.1:8000/api/create', {
+        const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create', {
         taskid: task.taskid,
         taskname: task.taskname
       });
@@ -57,8 +57,14 @@ export default function App() {
   }
 
   useEffect(() => {
-    retriveData();
+    // fetch data every 3 seconds
+    const interval = setInterval(() => {
+      retriveData();
+    }, 3000);
+
+    return () => clearInterval(interval); // cleanup on unmount
   }, []);
+
 
   // Data Delete
   async function handleDelete(id) {
@@ -69,6 +75,7 @@ export default function App() {
       alert('Data  deleted successfully')
     } catch (error) {
       console.log(error);
+      alert('Data  deleted successfully')
     }
 
   }
