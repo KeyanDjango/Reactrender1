@@ -25,7 +25,8 @@ export default function App() {
   async function handleSubmission(e) {
     e.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/create', {
+      // const response = await axios.post('http://127.0.0.1:8000/api/create'
+      const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create/', {
         taskid: task.taskid,
         taskname: task.taskname
       });
@@ -44,7 +45,9 @@ export default function App() {
 
   // Retrive Data
   async function retriveData() {
-    const response = await axios.get('http://127.0.0.1:8000/api/create')
+    // const response = await axios.get('http://127.0.0.1:8000/api/create')
+    const response = await axios.get('https://djangorender1-trh2.onrender.com/api/create/')
+    
     // console.log(response.data);
 
     setData(response.data);
