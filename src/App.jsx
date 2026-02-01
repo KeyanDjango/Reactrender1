@@ -21,10 +21,11 @@ export default function App() {
 
   }
 
-  // Submit
+  // Submited happend
   async function handleSubmission(e) {
     e.preventDefault();
     try {
+      // const response = await axios.post('http://127.0.0.1:8000/api/create'
       // const response = await axios.post('http://127.0.0.1:8000/api/create'
       const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create/', {
         taskid: task.taskid,
