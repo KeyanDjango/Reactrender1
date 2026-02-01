@@ -63,7 +63,7 @@ export default function App() {
   // Data Delete
   async function handleDelete(id) {
     try {
-      const response = await axios.delete(`https://djangorender1-trh2.onrender.com/api/delete/${id}`);
+      const response = await axios.delete(`https://djangorender1-trh2.onrender.com/api/delete/${id}/`);
       // const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}/`);
       retriveData();
       alert('Data  deleted successfully')
