@@ -30,8 +30,8 @@ export default function App() {
     if (todoid === null) {
       try {
         // const response = await axios.post('http://127.0.0.1:8000/api/create'
-        // const response = await axios.post('http://127.0.0.1:8000/api/create', {
-        const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create', {
+        const response = await axios.post('http://127.0.0.1:8000/api/create', {
+        // const response = await axios.post('https://djangorender1-trh2.onrender.com/api/create', {
           taskid: task.taskid,
           taskname: task.taskname
         });
@@ -47,8 +47,8 @@ export default function App() {
       }
     } else {
       try {
-        const response = await axios.put(`https://djangorender1-trh2.onrender.com/api/update/${todoid}/`, {
-          // const response = await axios.put(`http://127.0.0.1:8000/api/update/${todoid}/`, {
+        // const response = await axios.put(`https://djangorender1-trh2.onrender.com/api/update/${todoid}/`, {
+          const response = await axios.put(`http://127.0.0.1:8000/api/update/${todoid}/`, {
           taskid: task.taskid,
           taskname: task.taskname
         });
@@ -71,8 +71,8 @@ export default function App() {
 
   // Retrive Data
   async function retriveData() {
-    // const response = await axios.get('http://127.0.0.1:8000/api/create')
-    const response = await axios.get('https://djangorender1-trh2.onrender.com/api/create')
+    const response = await axios.get('http://127.0.0.1:8000/api/create')
+    // const response = await axios.get('https://djangorender1-trh2.onrender.com/api/create')
 
     // console.log(response.data);
 
@@ -89,10 +89,14 @@ export default function App() {
   // Data Delete
   async function handleDelete(id) {
     try {
-      const response = await axios.delete(`https://djangorender1-trh2.onrender.com/api/delete/${id}/`);
-      // const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}/`);
+      // const response = await axios.delete(`https://djangorender1-trh2.onrender.com/api/delete/${id}/`);
+      const response = await axios.delete(`http://127.0.0.1:8000/api/delete/${id}/`);
       retriveData();
       alert('Data  deleted successfully')
+      setTask({
+        taskid: '',
+        taskname: ''
+      });
     } catch (error) {
       console.log(error);
       alert('Data  deleted successfully')
@@ -112,6 +116,14 @@ export default function App() {
 
   }
 
+  function handleReset() {
+    setTask({
+      taskid: '',
+      taskname: ''
+    });
+    setId(null);
+  }
+
   return (
     <>
 
@@ -124,7 +136,7 @@ export default function App() {
 
 
         <input type='submit' value={todoid ? 'Update' : 'Submit'} />
-        <input type='reset' value='Reset' />
+        <input type='reset' value='Reset' onClick={handleReset} />
       </form>
 
       <table border='1px solid black'>
